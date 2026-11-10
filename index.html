@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apresentação Exclusiva - adEasy Hub</title>
     
-    <!-- TAG GLOBAL DO GOOGLE ADS -->
+    <!-- TAG GLOBAL DO GOOGLE ADS & GTM / ANALYTICS -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18420984078"></script>
+    <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-5ZXZK2H5"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'AW-18420984078');
+
+      // Configurações das tags globais
+      gtag('config', 'AW-18420984078'); // Google Ads
+      gtag('config', 'GTM-5ZXZK2H5');   // Analytics / GTM
     </script>
     
     <!-- Tailwind CSS -->
@@ -59,6 +63,7 @@
 <body class="text-slate-100 flex flex-col min-h-screen items-center py-12 px-4 selection:bg-emerald-500/30">
 
 <script>
+  // Função reutilizável para disparo de conversão de checkout/compra
   function dispararConversaoCompra() {
       gtag('event', 'conversion', {
           'send_to': 'AW-18420984078/FZPkCKfelYYdEI7S589E',
@@ -66,12 +71,12 @@
           'currency': 'BRL',
           'transaction_id': 'PIX_' + new Date().getTime() 
       });
-      console.log("Venda R$ 30 enviada para o Google Ads! Crédito a caminho.");
+      console.log("Evento de conversão enviado ao Google Ads.");
   }
 </script>
     
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZXZK2H5"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
@@ -243,6 +248,9 @@
             .then(res => res.json())
             .then(data => {
                 if(data.init_point) {
+                    // Dispara a conversão de checkout antes do redirecionamento
+                    dispararConversaoCompra();
+
                     window.location.href = data.init_point;
                 } else {
                     alert("Erro ao gerar link de pagamento. Tente novamente.");
